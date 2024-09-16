@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --rock-color: #b69e31;
+  --ghost-color: #70559b;
+  --steel-color: #b7b9d0;
+  --water-color: #6493eb;
+  --grass-color: #74cb48;
+  --psychic-color: #fb5584;
+  --ice-color: #9ad6df;
+  --dark-color: #75574c;
+  --fairy-color: #e69eac;
+  --normal-color: #aaa67f;
+  --fighting-color: #c12239;
+  --flying-color: #a889ec;
+  --poison-color: #a43e9b;
+  --ground-color: #dec16b;
+  --bug-color: #a7b723;
+  --fire-color: #f57d31;
+  --electric-color: #f9cf30;
+  --dragon-color: #7037ff;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+.pokeDex {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  padding: 10px;
+  box-sizing: border-box;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    box-sizing: border-box;
+  }
+}
+
+.pokemon {
+  width: 200px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin: 10px;
+  overflow: hidden;
+  cursor: pointer;
+
+  .buttomCard {
+    background-color: #fff;
+    width: 100%;
+    margin-top: 0;
+    padding: 10px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-image {
+    width: 100%;
+    height: auto;
+    max-height: 160px;
+    object-fit: cover;
+  }
+
+  .types-container {
+    color: #fff;
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 10px;
+  }
+
+  .type {
+    padding: 0.2rem 0.4rem;
+    margin: 0.25rem;
+    border-radius: 15px;
+    text-transform: capitalize;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    background-color: map-get($type-colors, #{&});
+  }
+}
+
+// Map for type colors
+$type-colors: (
+  "rock": #b69e31,
+  "ghost": #70559b,
+  "steel": #b7b9d0,
+  "water": #6493eb,
+  "grass": #74cb48,
+  "psychic": #fb5584,
+  "ice": #9ad6df,
+  "dark": #75574c,
+  "fairy": #e69eac,
+  "normal": #aaa67f,
+  "fighting": #c12239,
+  "flying": #a889ec,
+  "poison": #a43e9b,
+  "ground": #dec16b,
+  "bug": #a7b723,
+  "fire": #f57d31,
+  "electric": #f9cf30,
+  "dragon": #7037ff,
+);

@@ -1,48 +1,121 @@
-const MAX_POKEMON = 151;
+const mainContent = document.createElement("section");
+mainContent.classList.add("pokeDex");
+document.body.appendChild(mainContent);
 
-const listWrapper = document.createElement("div");
-document.body.appendChild(listWrapper);
-let allPokemons = [];
+let pokemonData = []; // To store Pokémon data
 
-// Function to fetch the list of Pokémon
-function fetchPokemons() {
-  fetch(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}`)
-    .then((response) => response.json())
-    .then((data) => {
-      allPokemons = data.results;
-      displayPokemons(allPokemons);
+fetchPokemonList();
+
+function fetchPokemonList() {
+  const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=24";
+
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error: ${response.status} - ${response.statusText}`
+        );
+      }
+      return response.json();
     })
-    .catch((error) => {
-      console.error("Failed to fetch Pokémon data:", error);
-    });
+    .then((data) => {
+      pokemonData = data.results; // Store Pokémon data
+      fetchPokemonDetails();
+    })
+    .catch((error) => console.error("Fetching Pokémon list failed:", error));
 }
 
-// Function to display Pokémon
+function fetchPokemonDetails() {
+  const promises = pokemonData.map((pokemon) =>
+    fetch(pokemon.url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `HTTP error: ${response.status} - ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .catch((error) =>
+        console.error("Fetching Pokémon details failed:", error)
+      )
+  );
+
+  Promise.all(promises)
+    .then((pokemonDetails) => {
+      // Sort Pokémon details by ID
+      pokemonDetails.sort((a, b) => a.id - b.id);
+      displayPokemons(pokemonDetails);
+    })
+    .catch((error) =>
+      console.error("Error processing Pokémon details:", error)
+    );
+}
+
 function displayPokemons(pokemons) {
-  listWrapper.innerHTML = "";
-
+  mainContent.innerHTML = "";
   pokemons.forEach((pokemon) => {
-    console.log(pokemon);
+    const { name, sprites, types, id } = pokemon;
+    const image = sprites.front_default;
+    const typesString = types.map((type) => type.type.name).join(", ");
+    const formattedId = pokemon.id.toString().padStart(3, "0");
 
-    const pokemonID = pokemon.url.split("/")[6];
-    const formattedId = pokemonID.toString().padStart(3, "0");
-
-    const listItem = document.createElement("div");
-    listItem.className = "list-item";
-    listItem.innerHTML = `
-      <div class="number-wrap">
-        <p class="caption-fonts">#${formattedId}</p>
-      </div>
-      <div class="img-wrap">
-        <img src="https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/pokemon/other/dream-world/${pokemonID}.svg" alt="${pokemon.name}" />
-      </div>
-      <div class="name-wrap">
-        <p class="body3-fonts">${pokemon.name}</p>
-      </div>
-    `;
-    listWrapper.appendChild(listItem);
+    displayPokemon(name, image, typesString, id, formattedId);
   });
 }
 
-// Initial fetch call
-fetchPokemons();
+function displayPokemon(name, image, types, id, formattedId) {
+  const typesArray = types.split(", ");
+  const typesHTML = typesArray
+    .map((type) => `<span class="type ${type}">${type}</span>`)
+    .join(" ");
+
+  const primaryType = typesArray[0];
+  const backgroundColor = getComputedStyle(document.documentElement)
+    .getPropertyValue(`--${primaryType}-color`)
+    .trim();
+
+  const pokemonCard = `
+  <section  style="background-color: ${backgroundColor};" onclick="callBackPokemonCard('${id}')" class="pokemon ${typesArray.join(
+    " "
+  )}">
+      <header>
+          <span>${name}</span>
+          <span>#${formattedId}</span>
+      </header>
+      <section class="buttomCard">
+          <img class="card-image" src="${image}" alt="${name}" />
+          <div class="types-container">
+              ${typesHTML}
+          </div>
+      </section>
+  </section>
+  `;
+  showMainContent(pokemonCard);
+}
+
+function showMainContent(html) {
+  mainContent.innerHTML += html;
+}
+
+// Create and configure the buttons
+const myButton = document.createElement("button");
+myButton.textContent = "Fetch New Pokémon";
+document.body.appendChild(myButton);
+
+myButton.addEventListener("click", () => {
+  fetchPokemonList();
+});
+
+const myButton2 = document.createElement("button");
+myButton2.textContent = "Reset New Pokémon";
+document.body.appendChild(myButton2);
+
+myButton2.addEventListener("click", () => {
+  mainContent.innerHTML = "";
+  showMainContent("<h1>Pokédex Reset</h1>"); // Reset message
+});
+
+function callBackPokemonCard(cardId) {
+  console.log(`Clicked Pokémon ID: ${cardId}`);
+}
