@@ -2,12 +2,12 @@ const mainContent = document.createElement("section");
 mainContent.classList.add("pokeDex");
 document.body.appendChild(mainContent);
 
-let pokemonData = []; // To store Pokémon data
+let pokemonData = [];
 
 fetchPokemonList();
 
 function fetchPokemonList() {
-  const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=105";
+  const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=15";
 
   fetch(url)
     .then((response) => {
@@ -19,7 +19,7 @@ function fetchPokemonList() {
       return response.json();
     })
     .then((data) => {
-      pokemonData = data.results; // Store Pokémon data
+      pokemonData = data.results;
       fetchPokemonDetails();
     })
     .catch((error) => console.error("Fetching Pokémon list failed:", error));
