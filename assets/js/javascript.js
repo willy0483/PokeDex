@@ -7,7 +7,7 @@ let pokemonData = []; // To store Pokémon data
 fetchPokemonList();
 
 function fetchPokemonList() {
-  const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=24";
+  const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=36";
 
   fetch(url)
     .then((response) => {

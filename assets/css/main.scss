@@ -21,6 +21,27 @@
   --dragon-color: #7037ff;
 }
 
+$type-colors: (
+  "rock": #b69e31,
+  "ghost": #70559b,
+  "steel": #b7b9d0,
+  "water": #6493eb,
+  "grass": #74cb48,
+  "psychic": #fb5584,
+  "ice": #9ad6df,
+  "dark": #75574c,
+  "fairy": #e69eac,
+  "normal": #aaa67f,
+  "fighting": #c12239,
+  "flying": #a889ec,
+  "poison": #a43e9b,
+  "ground": #dec16b,
+  "bug": #a7b723,
+  "fire": #f57d31,
+  "electric": #f9cf30,
+  "dragon": #7037ff,
+);
+
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
@@ -99,28 +120,12 @@ body {
     font-weight: 500;
     display: inline-block;
     text-align: center;
-    background-color: map-get($type-colors, #{&});
   }
 }
 
-// Map for type colors
-$type-colors: (
-  "rock": #b69e31,
-  "ghost": #70559b,
-  "steel": #b7b9d0,
-  "water": #6493eb,
-  "grass": #74cb48,
-  "psychic": #fb5584,
-  "ice": #9ad6df,
-  "dark": #75574c,
-  "fairy": #e69eac,
-  "normal": #aaa67f,
-  "fighting": #c12239,
-  "flying": #a889ec,
-  "poison": #a43e9b,
-  "ground": #dec16b,
-  "bug": #a7b723,
-  "fire": #f57d31,
-  "electric": #f9cf30,
-  "dragon": #7037ff,
-);
+/* Dynamic background-color generation */
+@each $type, $color in $type-colors {
+  .#{$type} {
+    background-color: $color;
+  }
+}
