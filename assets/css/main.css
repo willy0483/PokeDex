@@ -85,7 +85,7 @@ body {
   max-height: 160px;
   -o-object-fit: cover;
      object-fit: cover;
-  top: -25%;
+  top: -30%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -96,7 +96,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.25rem;
-  margin-top: 30px;
+  margin-top: 15px;
 }
 .pokemon .type {
   padding: 0.2rem 0.4rem;
