@@ -7,7 +7,7 @@ let pokemonData = []; // To store Pokémon data
 fetchPokemonList();
 
 function fetchPokemonList() {
-  const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=36";
+  const url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=105";
 
   fetch(url)
     .then((response) => {
@@ -52,6 +52,30 @@ function fetchPokemonDetails() {
     );
 }
 
+function fetchDescription(pokemonId, callback) {
+  fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error: ${response.status} - ${response.statusText}`
+        );
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const descriptionEntry = data.flavor_text_entries.find(
+        (entry) => entry.language.name === "en"
+      );
+      const description = descriptionEntry
+        ? descriptionEntry.flavor_text
+        : "No description available.";
+      callback(description); // Call the callback function to handle the description
+    })
+    .catch((error) =>
+      console.error("Fetching Pokémon description failed:", error)
+    );
+}
+
 function displayPokemons(pokemons) {
   mainContent.innerHTML = "";
   pokemons.forEach((pokemon) => {
@@ -60,11 +84,14 @@ function displayPokemons(pokemons) {
     const typesString = types.map((type) => type.type.name).join(", ");
     const formattedId = pokemon.id.toString().padStart(3, "0");
 
-    displayPokemon(name, image, typesString, id, formattedId);
+    // Fetch and display the Pokémon's description
+    fetchDescription(id, (description) => {
+      displayPokemon(name, image, typesString, id, formattedId, description);
+    });
   });
 }
 
-function displayPokemon(name, image, types, id, formattedId) {
+function displayPokemon(name, image, types, id, formattedId, description) {
   const typesArray = types.split(", ");
   const typesHTML = typesArray
     .map((type) => `<span class="type ${type}">${type}</span>`)
@@ -85,9 +112,8 @@ function displayPokemon(name, image, types, id, formattedId) {
       </header>
       <section class="buttomCard">
           <img class="card-image" src="${image}" alt="${name}" />
-          <div class="types-container">
-              ${typesHTML}
-          </div>
+          <div class="types-container">${typesHTML}</div>
+          <p class="description">${description}</p>
       </section>
   </section>
   `;

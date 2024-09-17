@@ -67,6 +67,12 @@ body {
     color: #fff;
     box-sizing: border-box;
   }
+  section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
 
 .pokemon {
@@ -77,28 +83,35 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
   background-color: #fff;
   margin: 10px;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 
   .buttomCard {
     background-color: #fff;
-    width: 100%;
-    margin-top: 0;
-    padding: 10px;
-    border-radius: 20px;
+    width: 90%;
+    height: 50%;
+    border-radius: 10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 0.5rem;
   }
 
   .card-image {
+    position: absolute;
     width: 100%;
     height: auto;
     max-height: 160px;
     object-fit: cover;
+    top: -25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .types-container {
@@ -108,7 +121,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.25rem;
-    margin-top: 10px;
+    margin-top: 30px;
   }
 
   .type {
@@ -120,6 +133,16 @@ body {
     font-weight: 500;
     display: inline-block;
     text-align: center;
+  }
+  p {
+    font-size: 0.65rem;
+    letter-spacing: 0.02rem;
+    color: #555;
+    padding: 0 1rem 1rem 1rem;
+    text-align: center;
+    max-width: 90%;
+    margin-top: -0.3rem;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
   }
 }
 
